@@ -1,0 +1,1 @@
+from .openweather_model import OpenWeatherResponse
