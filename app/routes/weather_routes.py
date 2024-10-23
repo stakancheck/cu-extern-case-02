@@ -53,10 +53,8 @@ def weather():
         return render_template('weather.html',
                                start_warning=start_warning,
                                start_weather=start_weather_info,
-                               start_analyzed_weather=start_warning.description,
                                end_warning=end_warning,
-                               end_weather=end_weather_info,
-                               end_analyzed_weather=end_warning.description)
+                               end_weather=end_weather_info,)
 
     except Exception as e:
         current_app.logger.error(f"Error in weather route: {e}")

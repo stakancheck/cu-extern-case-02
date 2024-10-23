@@ -16,14 +16,14 @@ class Main(BaseModel):
     feels_like: float
     pressure: int
     humidity: int
-    temp_min: float
-    temp_max: float
+    temp_min: Optional[float] = None
+    temp_max: Optional[float] = None
     sea_level: Optional[int] = None
     grnd_level: Optional[int] = None
 
 class Wind(BaseModel):
     speed: float
-    deg: int
+    deg: Optional[int] = None
     gust: Optional[float] = None
 
 class Clouds(BaseModel):
@@ -44,18 +44,18 @@ class Sys(BaseModel):
     sunset: int
 
 class OpenWeatherResponse(BaseModel):
-    coord: Coord
-    weather: List[Weather]
-    base: str
+    coord: Optional[Coord] = None
+    weather: Optional[List[Weather]] = None
+    base: Optional[str] = None
     main: Main
     visibility: Optional[int] = None
     wind: Wind
-    clouds: Clouds
+    clouds: Optional[Clouds] = None
     rain: Optional[Rain] = None
     snow: Optional[Snow] = None
-    dt: int
-    sys: Sys
-    timezone: int
-    id: int
-    name: str
-    cod: int
+    dt: Optional[int] = None
+    sys: Optional[Sys] = None
+    timezone: Optional[int] = None
+    id: Optional[int] = None
+    name: Optional[str] = None
+    cod: Optional[int] = None

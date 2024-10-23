@@ -10,9 +10,29 @@ from .weather_service import WeatherService
 
 
 class WeatherSeverity(Enum):
-    NORMAL = "normal"
-    SEVERE = "severe"
-    EXTREME = "extreme"
+    NORMAL = 1
+    SEVERE = 2
+    EXTREME = 3
+
+    def __lt__(self, other):
+        if isinstance(other, WeatherSeverity):
+            return self.value < other.value
+        return NotImplemented
+
+    def __le__(self, other):
+        if isinstance(other, WeatherSeverity):
+            return self.value <= other.value
+        return NotImplemented
+
+    def __gt__(self, other):
+        if isinstance(other, WeatherSeverity):
+            return self.value > other.value
+        return NotImplemented
+
+    def __ge__(self, other):
+        if isinstance(other, WeatherSeverity):
+            return self.value >= other.value
+        return NotImplemented
 
 
 @dataclass
@@ -70,40 +90,40 @@ class WeatherAnalyzerService:
         # Проверка температуры
         if weather_data.main.temp < self.thresholds.temp_min:
             conditions.append("extreme_cold")
-            severity = WeatherSeverity.SEVERE
+            severity = max(severity, WeatherSeverity.SEVERE)
         elif weather_data.main.temp > self.thresholds.temp_max:
             conditions.append("extreme_heat")
-            severity = WeatherSeverity.SEVERE
+            severity = max(severity, WeatherSeverity.SEVERE)
 
         # Проверка ветра
         if weather_data.wind.speed >= self.thresholds.wind_speed_extreme:
             conditions.append("extreme_wind")
-            severity = WeatherSeverity.EXTREME
+            severity = max(severity, WeatherSeverity.EXTREME)
         elif weather_data.wind.speed >= self.thresholds.wind_speed_severe:
             conditions.append("strong_wind")
-            severity = WeatherSeverity.SEVERE
+            severity = max(severity, WeatherSeverity.SEVERE)
 
         # Проверка осадков
         if weather_data.rain and weather_data.rain.one_h:
             if weather_data.rain.one_h >= self.thresholds.rain_extreme:
                 conditions.append("extreme_rain")
-                severity = WeatherSeverity.EXTREME
+                severity = max(severity, WeatherSeverity.EXTREME)
             elif weather_data.rain.one_h >= self.thresholds.rain_severe:
                 conditions.append("heavy_rain")
-                severity = WeatherSeverity.SEVERE
+                severity = max(severity, WeatherSeverity.SEVERE)
 
         if weather_data.snow and weather_data.snow.one_h:
             if weather_data.snow.one_h >= self.thresholds.snow_extreme:
                 conditions.append("extreme_snow")
-                severity = WeatherSeverity.EXTREME
+                severity = max(severity, WeatherSeverity.EXTREME)
             elif weather_data.snow.one_h >= self.thresholds.snow_severe:
                 conditions.append("heavy_snow")
-                severity = WeatherSeverity.SEVERE
+                severity = max(severity, WeatherSeverity.SEVERE)
 
         # Проверка видимости
         if weather_data.visibility and weather_data.visibility <= self.thresholds.visibility_poor:
             conditions.append("poor_visibility")
-            severity = WeatherSeverity.SEVERE
+            severity = max(severity, WeatherSeverity.SEVERE)
 
         # Формируем детальное описание
         detailed_conditions = [self._get_condition_description(cond) for cond in conditions]

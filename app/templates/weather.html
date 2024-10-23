@@ -31,7 +31,7 @@
         {# Погода для начальной точки #}
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ start_weather.city }}</h2>
-            <div class="w-1/2 p-4 rounded-lg {% if start_warning and start_warning.severity.value != 'normal' %}{% if start_warning.severity.value == 'extreme' %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
+            <div class="w-1/2 p-4 rounded-lg {% if start_warning and start_warning.severity.value != 1 %}{% if start_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
                 {{ start_warning.description }}
             </div>
             <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
@@ -70,7 +70,7 @@
         {# Погода для конечной точки #}
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ end_weather.city }}</h2>
-            <div class="w-1/2 p-4 rounded-lg {% if end_warning and end_warning.severity.value != 'normal' %}{% if end_warning.severity.value == 'extreme' %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
+            <div class="w-1/2 p-4 rounded-lg {% if end_warning and end_warning.severity.value != 1 %}{% if end_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
                 {{ end_warning.description }}
             </div>
             <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
