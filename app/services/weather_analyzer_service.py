@@ -5,8 +5,8 @@ from typing import Optional, List
 from flask_babel import gettext as _
 from pydantic import BaseModel
 
-from models import OpenWeatherResponse
-from services.weather_service import WeatherService
+from ..models import OpenWeatherResponse
+from .weather_service import WeatherService
 
 
 class WeatherSeverity(Enum):

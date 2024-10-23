@@ -45,7 +45,7 @@ class TestWeatherService(unittest.TestCase):
         result = self.weather_service.get_weather_by_city("Moscow")
         self.assertEqual(result, mock_weather_response)
         mock_get_coordinates_by_city_name.assert_called_once_with("Moscow")
-        mock_get_weather_by_coordinates.assert_called_once_with(55.7504461, 37.6174943)
+        mock_get_weather_by_coordinates.assert_called_once_with(55.7504461, 37.6174943, 'en')
 
     @patch('app.services.weather_service.GeocodingService.get_coordinates_by_city_name')
     def test_get_weather_by_city_non_existent_city(self, mock_get_coordinates_by_city_name):

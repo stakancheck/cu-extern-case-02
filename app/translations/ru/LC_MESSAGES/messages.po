@@ -1,10 +1,14 @@
 # Russian translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-23 17:39+0300\n"
-"PO-Revision-Date: 2024-10-23 17:40+0300\n"
+"POT-Creation-Date: 2024-10-23 21:29+0300\n"
+"PO-Revision-Date: 2024-10-23 18:49+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -15,41 +19,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-msgid "Weather conditions are normal."
-msgstr "Погодные условия в норме."
+#: app/routes/weather_routes.py:64
+msgid "Unable to fetch weather data"
+msgstr "Не удалось получить данные о погоде"
 
+#: app/services/weather_analyzer_service.py:45
+msgid "Weather conditions are normal."
+msgstr "Погодные условия нормальные."
+
+#: app/services/weather_analyzer_service.py:46
 msgid "Caution: Adverse weather conditions detected."
 msgstr "Внимание: Обнаружены неблагоприятные погодные условия."
 
+#: app/services/weather_analyzer_service.py:47
 msgid "Warning: Extreme weather conditions detected!"
 msgstr "Предупреждение: Обнаружены экстремальные погодные условия!"
 
-msgid "Detected conditions"
-msgstr "Обнаруженные условия"
-
+#: app/services/weather_analyzer_service.py:54
 msgid "Extremely low temperature"
-msgstr "Экстремально низкая температура"
+msgstr "Чрезвычайно низкая температура"
 
+#: app/services/weather_analyzer_service.py:55
 msgid "Extremely high temperature"
-msgstr "Экстремально высокая температура"
+msgstr "Чрезвычайно высокая температура"
 
+#: app/services/weather_analyzer_service.py:56
 msgid "Strong wind"
 msgstr "Сильный ветер"
 
+#: app/services/weather_analyzer_service.py:57
 msgid "Dangerous wind speed"
 msgstr "Опасная скорость ветра"
 
+#: app/services/weather_analyzer_service.py:58
 msgid "Heavy rain"
 msgstr "Сильный дождь"
 
+#: app/services/weather_analyzer_service.py:59
 msgid "Extremely heavy rain"
-msgstr "Экстремально сильный дождь"
+msgstr "Чрезвычайно сильный дождь"
 
+#: app/services/weather_analyzer_service.py:60
 msgid "Heavy snow"
 msgstr "Сильный снег"
 
+#: app/services/weather_analyzer_service.py:61
 msgid "Extremely heavy snow"
-msgstr "Экстремально сильный снегопад"
+msgstr "Чрезвычайно сильный снег"
 
+#: app/services/weather_analyzer_service.py:62
 msgid "Poor visibility conditions"
-msgstr "Плохая видимость"
+msgstr "Плохие условия видимости"
+
+#: app/services/weather_analyzer_service.py:113
+msgid "Detected conditions"
+msgstr "Обнаруженные условия"
+
+#: app/templates/weather.html:6
+msgid "Weather analyzer"
+msgstr "Анализ погоды"
+
+#: app/templates/weather.html:12
+msgid "Current Weather"
+msgstr "Текущая погода"
+
+#: app/templates/weather.html:17
+msgid "Start City"
+msgstr "Начальный город"
+
+#: app/templates/weather.html:18
+msgid "End City"
+msgstr "Конечный город"
+
+#: app/templates/weather.html:19
+msgid "Show Weather"
+msgstr "Показать погоду"
+
+#: app/templates/weather.html:33 app/templates/weather.html:72
+msgid "Weather in"
+msgstr "Погода в"
+
+#: app/templates/weather.html:45 app/templates/weather.html:84
+msgid "Feels like"
+msgstr "Ощущается как"
+
+#: app/templates/weather.html:54 app/templates/weather.html:93
+msgid "Humidity"
+msgstr "Влажность"
+
+#: app/templates/weather.html:58 app/templates/weather.html:97
+msgid "Wind Speed"
+msgstr "Скорость ветра"
+
+#: app/templates/weather.html:59 app/templates/weather.html:98
+msgid "m/s"
+msgstr "м/с"
+
+#: app/templates/weather.html:62 app/templates/weather.html:101
+msgid "Pressure"
+msgstr "Давление"
+
+#: app/templates/weather.html:63 app/templates/weather.html:102
+msgid "hPa"
+msgstr "гПа"
+

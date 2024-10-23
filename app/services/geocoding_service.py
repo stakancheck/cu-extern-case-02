@@ -7,7 +7,7 @@ from pydantic import ValidationError
 import logging
 
 from config import Config
-from models.geocoding_model import GeocodingResponse
+from ..models.geocoding_model import GeocodingResponse
 
 
 class GeocodingAPIException(Exception):
