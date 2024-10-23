@@ -1,0 +1,55 @@
+# Russian translations for PROJECT.
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-10-23 17:39+0300\n"
+"PO-Revision-Date: 2024-10-23 17:40+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+msgid "Weather conditions are normal."
+msgstr "Погодные условия в норме."
+
+msgid "Caution: Adverse weather conditions detected."
+msgstr "Внимание: Обнаружены неблагоприятные погодные условия."
+
+msgid "Warning: Extreme weather conditions detected!"
+msgstr "Предупреждение: Обнаружены экстремальные погодные условия!"
+
+msgid "Detected conditions"
+msgstr "Обнаруженные условия"
+
+msgid "Extremely low temperature"
+msgstr "Экстремально низкая температура"
+
+msgid "Extremely high temperature"
+msgstr "Экстремально высокая температура"
+
+msgid "Strong wind"
+msgstr "Сильный ветер"
+
+msgid "Dangerous wind speed"
+msgstr "Опасная скорость ветра"
+
+msgid "Heavy rain"
+msgstr "Сильный дождь"
+
+msgid "Extremely heavy rain"
+msgstr "Экстремально сильный дождь"
+
+msgid "Heavy snow"
+msgstr "Сильный снег"
+
+msgid "Extremely heavy snow"
+msgstr "Экстремально сильный снегопад"
+
+msgid "Poor visibility conditions"
+msgstr "Плохая видимость"
