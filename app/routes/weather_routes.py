@@ -1,79 +1,62 @@
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request, jsonify
 from flask_babel import gettext as _, get_locale
-
 from ..services.plot_service import create_weather_plot_temp, create_weather_plot_wind
 from ..services.weather_analyzer_service import WeatherAnalyzerService
 from ..services.weather_service import WeatherService
 
 weather_bp = Blueprint('weather', __name__)
 
-@weather_bp.route('/weather')
+@weather_bp.route('/weather', methods=['GET', 'POST'])
 def weather():
     try:
-        start_city = request.args.get('start_city')
-        end_city = request.args.get('end_city')
+        if request.method == 'POST':
+            data = request.get_json()
+            cities = data.get('cities', [])
 
-        if not start_city or not end_city:
-            return render_template('weather.html')
+            if not cities:
+                return render_template('weather.html')
 
-        # Get weather data for the start city
-        weather_service = WeatherService()
-        start_weather_data = weather_service.get_weather_by_city(start_city, str(get_locale()))
-        start_hourly_weather_data = weather_service.get_weather_hourly_by_city(start_city, str(get_locale()))
+            weather_service = WeatherService()
+            analyzer = WeatherAnalyzerService()
+            cities_weather = []
 
-        # Analyze weather conditions for the start city
-        analyzer = WeatherAnalyzerService()
-        start_warning = analyzer.analyze_weather(start_weather_data)
+            for city in cities:
+                # Get weather data for the city
+                weather_data = weather_service.get_weather_by_city(city, str(get_locale()))
+                hourly_weather_data = weather_service.get_weather_hourly_by_city(city, str(get_locale()))
 
-        # Format data for display for the start city
-        start_weather_info = {
-            'city': start_weather_data.name,
-            'temperature': round(start_weather_data.main.temp),
-            'feels_like': round(start_weather_data.main.feels_like),
-            'description': start_weather_data.weather[0].description,
-            'humidity': start_weather_data.main.humidity,
-            'wind_speed': round(start_weather_data.wind.speed),
-            'pressure': start_weather_data.main.pressure,
-        }
+                # Analyze weather conditions for the city
+                warning = analyzer.analyze_weather(weather_data)
 
-        # Get weather data for the end city
-        end_weather_data = weather_service.get_weather_by_city(end_city, str(get_locale()))
-        end_hourly_weather_data = weather_service.get_weather_hourly_by_city(end_city, str(get_locale()))
+                # Format data for display for the city
+                weather_info = {
+                    'city': weather_data.name,
+                    'temperature': round(weather_data.main.temp),
+                    'feels_like': round(weather_data.main.feels_like),
+                    'description': weather_data.weather[0].description,
+                    'humidity': weather_data.main.humidity,
+                    'wind_speed': round(weather_data.wind.speed),
+                    'pressure': weather_data.main.pressure,
+                    'warning': warning,
+                    'hourly_weather': hourly_weather_data.list
+                }
 
-        # Analyze weather conditions for the end city
-        end_warning = analyzer.analyze_weather(end_weather_data)
+                # Extract data for plotting
+                dates = [entry.pretty_dt for entry in hourly_weather_data.list]
+                temperatures = [entry.main.temp for entry in hourly_weather_data.list]
+                wind_speeds = [entry.wind.speed for entry in hourly_weather_data.list]
 
-        # Format data for display for the end city
-        end_weather_info = {
-            'city': end_weather_data.name,
-            'temperature': round(end_weather_data.main.temp),
-            'feels_like': round(end_weather_data.main.feels_like),
-            'description': end_weather_data.weather[0].description,
-            'humidity': end_weather_data.main.humidity,
-            'wind_speed': round(end_weather_data.wind.speed),
-            'pressure': end_weather_data.main.pressure,
-        }
+                # Create plot
+                weather_info['plot_url_temp'] = create_weather_plot_temp(dates, temperatures)
+                weather_info['plot_url_wind'] = create_weather_plot_wind(dates, wind_speeds)
 
-        # Extract data for plotting
-        dates = [entry.pretty_dt for entry in start_hourly_weather_data.list]
-        temperatures = [entry.main.temp for entry in start_hourly_weather_data.list]
-        wind_speeds = [entry.wind.speed for entry in start_hourly_weather_data.list]
+                cities_weather.append(weather_info)
 
-        # Create plot
-        plot_url_temp = create_weather_plot_temp(dates, temperatures)
-        plot_url_wind = create_weather_plot_wind(dates, wind_speeds)
+            return render_template('weather.html', cities_weather=cities_weather)
 
-        return render_template('weather.html',
-                               plot_url_temp=plot_url_temp,
-                                 plot_url_wind=plot_url_wind,
-                               start_warning=start_warning,
-                               start_weather=start_weather_info,
-                               start_hourly_weather=start_hourly_weather_data.list,
-                               end_warning=end_warning,
-                               end_weather=end_weather_info,
-                               end_hourly_weather=end_hourly_weather_data.list)
+        # Если метод GET, просто отобразить пустую форму
+        return render_template('weather.html')
 
     except Exception as e:
         current_app.logger.error(f"Error in weather route: {e}")
-        return render_template('weather.html',
-                               error=_("Unable to fetch weather data"))
+        return render_template('weather.html', error=_("Unable to fetch weather data"))
