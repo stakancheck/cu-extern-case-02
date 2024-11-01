@@ -3,3 +3,6 @@ requests~=2.32.3
 python-dotenv~=1.0.1
 flask-babel~=4.0.0
 Flask~=3.0.3
+dash~=2.18.1
+plotly~=5.24.1
+aiogram~=3.13.1
