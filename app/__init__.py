@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
 from flask import Flask, request, session
@@ -11,6 +12,10 @@ from .routes import weather_bp
 
 def create_app():
     app = Flask(__name__)
+
+    # @app.template_filter('datetimeformat')
+    # def datetimeformat(value, format='%Y-%m-%d'):
+    #     return datetime.fromtimestamp(value).strftime(format)
 
     # Загрузка конфигурации
     app.config.from_object(Config)

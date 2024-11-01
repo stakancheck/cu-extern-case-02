@@ -1,3 +1,4 @@
 from .weather_service import WeatherService
 from .weather_analyzer_service import WeatherAnalyzerService
 from .geocoding_service import GeocodingService
+from .plot_service import create_weather_plot_temp, create_weather_plot_wind

@@ -5,109 +5,208 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ _('Weather analyzer') }}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">
-            {{ _('Current Weather') }}
-        </h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">
+        {{ _('Current Weather') }}
+    </h1>
 
-        <form method="GET" action="/weather" class="mb-8">
-            <div class="flex flex-wrap justify-center space-x-4">
-                <input type="text" name="start_city" placeholder="{{ _('Start City') }}" class="border p-2 mb-2" required>
-                <input type="text" name="end_city" placeholder="{{ _('End City') }}" class="border p-2 mb-2" required>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 mb-2">{{ _('Show Weather') }}</button>
-            </div>
-        </form>
-
-        {% if error %}
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <span class="block sm:inline">{{ error }}</span>
+    <form method="GET" action="/weather" class="mb-8">
+        <div class="flex flex-wrap justify-center space-x-4">
+            <input type="text" name="start_city" placeholder="{{ _('Start City') }}" class="border p-2 mb-2" required>
+            <input type="text" name="end_city" placeholder="{{ _('End City') }}" class="border p-2 mb-2" required>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 mb-2">{{ _('Show Weather') }}</button>
         </div>
-        {% else %}
+    </form>
 
-        {% if start_weather and end_weather %}
-
-        {# Погода для начальной точки #}
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ start_weather.city }}</h2>
-            <div class="w-1/2 p-4 rounded-lg {% if start_warning and start_warning.severity.value != 1 %}{% if start_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
-                {{ start_warning.description }}
-            </div>
-            <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <div class="text-center">
-                            <div class="text-6xl font-bold text-gray-800">
-                                {{ start_weather.temperature }}°C
-                            </div>
-                            <div class="text-gray-600 mt-2">
-                                {{ _('Feels like') }}: {{ start_weather.feels_like }}°C
-                            </div>
-                            <div class="text-xl mt-2 capitalize text-gray-700">
-                                {{ start_weather.description }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Humidity') }}:</span>
-                            <span class="float-right font-semibold">{{ start_weather.humidity }}%</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Wind Speed') }}:</span>
-                            <span class="float-right font-semibold">{{ start_weather.wind_speed }} {{ _('m/s') }}</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Pressure') }}:</span>
-                            <span class="float-right font-semibold">{{ start_weather.pressure }} {{ _('hPa') }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {# Погода для конечной точки #}
-        <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ end_weather.city }}</h2>
-            <div class="w-1/2 p-4 rounded-lg {% if end_warning and end_warning.severity.value != 1 %}{% if end_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
-                {{ end_warning.description }}
-            </div>
-            <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <div class="text-center">
-                            <div class="text-6xl font-bold text-gray-800">
-                                {{ end_weather.temperature }}°C
-                            </div>
-                            <div class="text-gray-600 mt-2">
-                                {{ _('Feels like') }}: {{ end_weather.feels_like }}°C
-                            </div>
-                            <div class="text-xl mt-2 capitalize text-gray-700">
-                                {{ end_weather.description }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Humidity') }}:</span>
-                            <span class="float-right font-semibold">{{ end_weather.humidity }}%</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Wind Speed') }}:</span>
-                            <span class="float-right font-semibold">{{ end_weather.wind_speed }} {{ _('m/s') }}</span>
-                        </div>
-                        <div class="border-b pb-2">
-                            <span class="text-gray-600">{{ _('Pressure') }}:</span>
-                            <span class="float-right font-semibold">{{ end_weather.pressure }} {{ _('hPa') }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        {% endif %}
+    {% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline">{{ error }}</span>
     </div>
+    {% else %}
+
+    {% if start_weather and end_weather %}
+
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ start_weather.city }}</h2>
+        <div class="flex space-x-4">
+            <div class="w-1/2">
+                <h3 class="text-xl font-semibold mb-2">{{ _('Temperature plot') }}</h3>
+                <img src="data:image/png;base64,{{ plot_url_temp }}" alt="Temperature Plot" class="w-full rounded-lg">
+            </div>
+            <div class="w-1/2">
+                <h3 class="text-xl font-semibold mb-2">{{ _('Wind Speed plot') }}</h3>
+                <img src="data:image/png;base64,{{ plot_url_wind }}" alt="Wind Speed Plot" class="w-full rounded-lg">
+            </div>
+        </div>
+    </div>
+
+    {# Погода для начальной точки #}
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ start_weather.city }}</h2>
+        <div class="w-1/2 p-4 rounded-lg {% if start_warning and start_warning.severity.value != 1 %}{% if start_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
+            {{ start_warning.description }}
+        </div>
+        <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-gray-800">
+                            {{ start_weather.temperature }}°C
+                        </div>
+                        <div class="text-gray-600 mt-2">
+                            {{ _('Feels like') }}: {{ start_weather.feels_like }}°C
+                        </div>
+                        <div class="text-xl mt-2 capitalize text-gray-700">
+                            {{ start_weather.description }}
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Humidity') }}:</span>
+                        <span class="float-right font-semibold">{{ start_weather.humidity }}%</span>
+                    </div>
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Wind Speed') }}:</span>
+                        <span class="float-right font-semibold">{{ start_weather.wind_speed }} {{ _('m/s') }}</span>
+                    </div>
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Pressure') }}:</span>
+                        <span class="float-right font-semibold">{{ start_weather.pressure }} {{ _('hPa') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Прогноз погоды для начальной точки #}
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ _('Hourly Forecast for') }} {{ start_weather.city }}</h2>
+        <div class="bg-white rounded-lg mt-2 shadow-lg mb-8">
+            <div class="flex overflow-x-auto p-4 space-x-4">
+                {% for forecast in start_hourly_weather %}
+                <div class="flex-shrink-0 p-4 flex-grow min-w-[12rem] bg-gray-100 rounded-lg shadow-md">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-gray-800">
+                            {{ forecast.pretty_dt }}
+                        </div>
+                        <div class="text-6xl font-bold text-gray-800">
+                            {{ forecast.main.rounded_temp }}°C
+                        </div>
+                        <div class="text-gray-600 mt-2">
+                            {{ _('Feels like') }}: {{ forecast.main.feels_like }}°C
+                        </div>
+                        <div class="text-xl mt-2 capitalize text-gray-700">
+                            {{ forecast.weather[0].description }}
+                        </div>
+                        <div class="flex justify-between items-center text-sm mt-2 space-x-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-tint text-blue-500 mr-1"></i>
+                                <span>{{ forecast.main.humidity }}%</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-wind text-gray-500 mr-1"></i>
+                                <span>{{ forecast.wind.speed }} {{ _('m/s') }}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-tachometer-alt text-red-500 mr-1"></i>
+                                <span>{{ forecast.main.pressure }} {{ _('hPa') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {# Погода для конечной точки #}
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ _('Weather in') }} {{ end_weather.city }}</h2>
+        <div class="w-1/2 p-4 rounded-lg {% if end_warning and end_warning.severity.value != 1 %}{% if end_warning.severity.value == 3 %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}{% endif %}">
+            {{ end_warning.description }}
+        </div>
+        <div class="bg-white rounded-lg mt-2 shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-gray-800">
+                            {{ end_weather.temperature }}°C
+                        </div>
+                        <div class="text-gray-600 mt-2">
+                            {{ _('Feels like') }}: {{ end_weather.feels_like }}°C
+                        </div>
+                        <div class="text-xl mt-2 capitalize text-gray-700">
+                            {{ end_weather.description }}
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Humidity') }}:</span>
+                        <span class="float-right font-semibold">{{ end_weather.humidity }}%</span>
+                    </div>
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Wind Speed') }}:</span>
+                        <span class="float-right font-semibold">{{ end_weather.wind_speed }} {{ _('m/s') }}</span>
+                    </div>
+                    <div class="border-b pb-2">
+                        <span class="text-gray-600">{{ _('Pressure') }}:</span>
+                        <span class="float-right font-semibold">{{ end_weather.pressure }} {{ _('hPa') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Прогноз погоды для конечной точки #}
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ _('Hourly Forecast for') }} {{ start_weather.city }}</h2>
+        <div class="bg-white rounded-lg mt-2 shadow-lg mb-8">
+            <div class="flex overflow-x-auto p-4 space-x-4">
+                {% for forecast in end_hourly_weather %}
+                <div class="flex-shrink-0 p-4 flex-grow min-w-[12rem] bg-gray-100 rounded-lg shadow-md">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-gray-800">
+                            {{ forecast.pretty_dt }}
+                        </div>
+                        <div class="text-6xl font-bold text-gray-800">
+                            {{ forecast.main.rounded_temp }}°C
+                        </div>
+                        <div class="text-gray-600 mt-2">
+                            {{ _('Feels like') }}: {{ forecast.main.feels_like }}°C
+                        </div>
+                        <div class="text-xl mt-2 capitalize text-gray-700">
+                            {{ forecast.weather[0].description }}
+                        </div>
+                        <div class="flex justify-between items-center text-sm mt-2 space-x-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-tint text-blue-500 mr-1"></i>
+                                <span>{{ forecast.main.humidity }}%</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-wind text-gray-500 mr-1"></i>
+                                <span>{{ forecast.wind.speed }} {{ _('m/s') }}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-tachometer-alt text-red-500 mr-1"></i>
+                                <span>{{ forecast.main.pressure }} {{ _('hPa') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    {% endif %}
+
+    {% endif %}
+</div>
 </body>
 </html>

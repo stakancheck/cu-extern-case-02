@@ -5,7 +5,7 @@ import requests
 
 from app.services.geocoding_service import GeocodingService, GeocodingAPIException, GeocodingAPICityNotFound
 from app.services.weather_service import WeatherService, WeatherAPIException
-from models import OpenWeatherResponse
+from models import OpenWeatherResponse, OpenWeatherHourlyResponse
 
 
 class TestWeatherService(unittest.TestCase):
@@ -66,6 +66,47 @@ class TestWeatherService(unittest.TestCase):
 
         with self.assertRaises(WeatherAPIException):
             self.weather_service.get_weather_by_city("Moscow")
+
+    @patch('app.services.weather_service.requests.get')
+    def test_get_weather_hourly_by_coordinates(self, mock_get):
+        # Mock the API response with valid data
+        mock_response = Mock()
+        mock_response.json.return_value = {
+            "cod": "200",
+            "message": 0,
+            "cnt": 1,
+            "list": [
+                {
+                    "coord": {"lon": 37.6174943, "lat": 55.7504461},
+                    "weather": [{"id": 800, "main": "Clear", "description": "clear sky", "icon": "01d"}],
+                    "base": "stations",
+                    "main": {
+                        "temp": 15.0,
+                        "feels_like": 14.0,
+                        "pressure": 1012,
+                        "humidity": 50,
+                        "temp_min": 15.0,
+                        "temp_max": 15.0
+                    },
+                    "visibility": 10000,
+                    "wind": {"speed": 3.0, "deg": 200},
+                    "clouds": {"all": 0},
+                    "dt": 1605182400,
+                    "sys": {"country": "RU", "sunrise": 1605154852, "sunset": 1605184952},
+                    "timezone": 10800,
+                    "id": 524901,
+                    "name": "Moscow",
+                    "cod": 200
+                }
+            ]
+        }
+        mock_response.raise_for_status = Mock()
+        mock_get.return_value = mock_response
+
+        result = self.weather_service.get_weather_hourly_by_coordinates(55.7504461, 37.6174943, 'en')
+        self.assertIsInstance(result, OpenWeatherHourlyResponse)
+        for weather in result.list:
+            print(weather)
 
 
 class TestGeocodingService(unittest.TestCase):
@@ -135,6 +176,8 @@ class TestGeocodingService(unittest.TestCase):
         service = GeocodingService()
         with self.assertRaises(GeocodingAPIException):
             service.get_coordinates_by_city_name("NonExistentCity")
+
+
 
 
 if __name__ == '__main__':
